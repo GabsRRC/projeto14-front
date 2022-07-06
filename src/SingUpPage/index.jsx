@@ -18,6 +18,7 @@ export default function LoginPage() {
     promise.then((response) => {
       console.log(response.data);
       setUser({ ...response.data.user });
+      navigate("/login")
     });
     promise.catch((response) => {
       console.log(response.error);
