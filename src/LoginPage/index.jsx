@@ -1,23 +1,30 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import TokenContext from "../contexts/TokenContext.js";
+import UserContext from "../contexts/UserContext.js";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [user, setUser] = useState([]);
+  const { setUser } = useContext(UserContext);
+  const { setToken } = useContext(TokenContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    const user = {
-      email: "r@r.com",
-      password: "12345",
+
+    const body = {
+      email,
+      password,
     };
 
-    const promise = axios.post("https://api-grstore.herokuapp.com/login", user);
+    const promise = axios.post("https://api-grstore.herokuapp.com/login", body);
     promise.then((response) => {
-      console.log(response.data);
       setUser({ ...response.data.user });
+      setToken({ ...response.data.token });
+      navigate("/");
     });
     promise.catch((response) => {
       console.log(response.error);
@@ -27,9 +34,23 @@ export default function LoginPage() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Input type={"text"} placeholder="Email" />
-        <Input type={"password"} placeholder="Password" />
-        <Button>Logar!</Button>
+        <Input
+          type={"text"}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          required
+        />
+        <Input
+          type={"password"}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <Button>Entrar</Button>
       </Form>
     </>
   );
