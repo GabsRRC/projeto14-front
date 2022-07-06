@@ -38,29 +38,6 @@ const Container = styled.div`
   min-height: 80vh;
   margin-top: 40px;
 `;
-// const Header = styled.header`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   width: 100%;
-//   padding: 0 6%;
-//   height: 8vh;
-//   border-bottom: 1px solid black;
-//   background-color: #004443;
-
-//   h2{
-//     color:#f9f2e7;
-//   }
-
-// `;
-const HeaderIcons = styled.div`
-  display: flex;
-
-  padding-left: 10px;
-  LinkStyled {
-    margin-left: 10px;
-  }
-`;
 
 const Footer = styled.footer`
   display: flex;
@@ -72,8 +49,4 @@ const Footer = styled.footer`
   gap: 22px;
   color: #f9f2e7;
 `;
-const LinkStyled = styled(Link)`
-  color: initial;
-  text-decoration: none;
-  margin-left: 10px;
-`;
+
