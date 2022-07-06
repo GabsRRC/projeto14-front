@@ -4,24 +4,15 @@ import MainPage from "./MainPage/index";
 import LoginPage from "./LoginPage/index";
 import CheckoutPage from "./CheckoutPage/index";
 import AuthPage from "./AuthPage/index";
-import SingUpPage from "./SingUpPage/index"
+import SingUpPage from "./SingUpPage/index";
+import Header from "./Header/index";
 import styled from "styled-components";
 import "./reset.css";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Header>
-        <div>
-          <LinkStyled to="/" style={{ marginLeft: 0 }}>
-            <h2>GR STORE</h2>
-          </LinkStyled>
-        </div>
-        <HeaderIcons>
-          <LinkStyled to="/checkout">Carrinho</LinkStyled>
-          <LinkStyled to="/login">User</LinkStyled>
-        </HeaderIcons>
-      </Header>
+      <Header/>
       <Container>
         <Routes>
           <Route path="/" element={<MainPage />} />
@@ -47,21 +38,21 @@ const Container = styled.div`
   min-height: 80vh;
   margin-top: 40px;
 `;
-const Header = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0 6%;
-  height: 8vh;
-  border-bottom: 1px solid black;
-  background-color: #004443;
+// const Header = styled.header`
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   padding: 0 6%;
+//   height: 8vh;
+//   border-bottom: 1px solid black;
+//   background-color: #004443;
 
-  h2{
-    color:#f9f2e7;
-  }
+//   h2{
+//     color:#f9f2e7;
+//   }
 
-`;
+// `;
 const HeaderIcons = styled.div`
   display: flex;
 

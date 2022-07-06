@@ -25,6 +25,7 @@ export default function AuthPage() {
 }
 
 
+
 const Button = styled.div`
     width: 303px;
     height: 45px;

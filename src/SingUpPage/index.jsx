@@ -2,37 +2,53 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import Loading from "../Loading";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const [user, setUser] = useState([]);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordValid, setPasswordValid] = useState('');
+    const [name, setName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const user = {
-      email: "r@r.com",
-      password: "12345",
-    };
+    const navigate = useNavigate();
 
-    const promise = axios.post("https://api-grstore.herokuapp.com/cadastro", user);
-    promise.then((response) => {
-      console.log(response.data);
-      setUser({ ...response.data.user });
-      navigate("/login")
-    });
-    promise.catch((response) => {
-      console.log(response.error);
-      alert("Não foi possível efetuar o cadastro no momento!");
-    });
+    function singUp(event){
+      event.preventDefault();
+      setIsLoading(true);
+
+      const body = {
+        email: email,
+        name: name,
+        password: password,
+        passwordValid: passwordValid
+      }
+
+      if(password === passwordValid){
+        const promise = axios.post('https://api-grstore.herokuapp.com/cadastro', body)
+        promise
+        .then(res => {
+          navigate("/");
+          setIsLoading(false);
+        })
+        .catch(err => {
+          alert("Algo deu errado, tente novamente");
+          setIsLoading(false);
+        })
+      } else {
+        alert("Senhas não são iguais");
+        setIsLoading(false);
+      }
   }
   return (
     <>
-      <Form onSubmit={handleSubmit}>
-        <Input type={"text"} placeholder="Nome" />
-        <Input type={"text"} placeholder="Email" />
-        <Input type={"password"} placeholder="Senha" />
-        <Input type={"password"} placeholder="Confirme sua senha" />
-        <Button>Cadastro!</Button>
+      <Form onSubmit={singUp}>
+        <h3>Faça seu cadastro na GR STORE</h3>
+        <Input type={"text"} placeholder="Nome"  value={name} required onChange={e => setName(e.target.value)} disabled={isLoading} />
+        <Input type={"text"} placeholder="Email" value={email} required onChange={e => setEmail(e.target.value)} disabled={isLoading}/>
+        <Input type={"password"} placeholder="Senha" value={password} required onChange={e => setPassword(e.target.value)} disabled={isLoading}/>
+        <Input type={"password"} placeholder="Confirme sua senha" value={passwordValid} required onChange={e => setPasswordValid(e.target.value)} disabled={isLoading}/>
+        <Button type="submit" disabled={isLoading}>{" "} {isLoading ? <Loading /> : "Cadastrar"}</Button>
       </Form>
     </>
   );
@@ -43,35 +59,62 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   margin-top: 100px;
   width: 80%;
-`;
-const Input = styled.input`
-  font-size: 20px;
-  padding-left: 10px;
-  width: 100%;
-  height: 40px;
-  margin-bottom: 20px;
 
-  color: black;
-  background-color: #b2bec2;
-  border: none;
-  &::placeholder {
-    color: #271f1ff6;
+  h3{
+    text-align:center;
+    font-size: 28px;
+    width: 260px;
+    margin-bottom: 15px;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    color: #004443;
   }
+
 `;
+
+const Input = styled.input`
+    box-sizing: border-box;
+    width: 303px;
+    height: 45px;
+    background: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 5px;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19.976px;
+    color: #666666;
+    margin: 4px;
+
+    &::placeholder{
+        color: #b2bec2;
+        padding-left: 10px;
+    }
+`;
+
 const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: #b2bec2;
-  color: #271f1ff6;
-
-  border: none;
-
-  width: 100%;
-  padding: 5px;
-  font-size: 20px;
+    width: 303px;
+    height: 45px;
+    background: #00c16c ;
+    border-radius: 4.63636px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20.976px;
+    line-height: 26px;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 5px;
+    padding: 0;
+    margin:0;
+    border: none;
+    margin-bottom: 50px;
+    margin-top: 15px;
 `;
