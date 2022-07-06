@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import MainPage from "./MainPage/index";
 import LoginPage from "./LoginPage/index";
 import CheckoutPage from "./CheckoutPage/index";
+import AuthPage from "./AuthPage/index";
+import SingUpPage from "./SingUpPage/index"
 import styled from "styled-components";
 import "./reset.css";
 
@@ -12,7 +14,7 @@ export default function App() {
       <Header>
         <div>
           <LinkStyled to="/" style={{ marginLeft: 0 }}>
-            GR STORE
+            <h2>GR STORE</h2>
           </LinkStyled>
         </div>
         <HeaderIcons>
@@ -24,7 +26,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/cadastro" element={<SingUpPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </Container>
       <Footer>
@@ -51,7 +55,12 @@ const Header = styled.header`
   padding: 0 6%;
   height: 8vh;
   border-bottom: 1px solid black;
-  background-color: gray;
+  background-color: #004443;
+
+  h2{
+    color:#f9f2e7;
+  }
+
 `;
 const HeaderIcons = styled.div`
   display: flex;
@@ -66,10 +75,11 @@ const Footer = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: gray;
+  background-color: #002e34;
   height: 12vh;
   width: 100%;
   gap: 22px;
+  color: #f9f2e7;
 `;
 const LinkStyled = styled(Link)`
   color: initial;
