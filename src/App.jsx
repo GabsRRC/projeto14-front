@@ -1,45 +1,78 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import MainPage from "./MainPage/index";
+import LoginPage from "./LoginPage/index";
+import CheckoutPage from "./CheckoutPage/index";
+import styled from "styled-components";
+import "./reset.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <BrowserRouter>
+      <Header>
+        <div>
+          <LinkStyled to="/" style={{ marginLeft: 0 }}>
+            GR STORE
+          </LinkStyled>
+        </div>
+        <HeaderIcons>
+          <LinkStyled to="/checkout">Carrinho</LinkStyled>
+          <LinkStyled to="/login">User</LinkStyled>
+        </HeaderIcons>
+      </Header>
+      <Container>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+        </Routes>
+      </Container>
+      <Footer>
+        <p>GR Store</p>
+        <p>Copyright©2022</p>
+        <p>Todos os direitos reservados.</p>
+      </Footer>
+    </BrowserRouter>
+  );
 }
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 80vh;
+  margin-top: 40px;
+`;
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 6%;
+  height: 8vh;
+  border-bottom: 1px solid black;
+  background-color: gray;
+`;
+const HeaderIcons = styled.div`
+  display: flex;
 
-export default App
+  padding-left: 10px;
+  LinkStyled {
+    margin-left: 10px;
+  }
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+  height: 12vh;
+  width: 100%;
+  gap: 22px;
+`;
+const LinkStyled = styled(Link)`
+  color: initial;
+  text-decoration: none;
+  margin-left: 10px;
+`;
