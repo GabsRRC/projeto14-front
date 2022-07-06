@@ -5,8 +5,8 @@ import LoginPage from "./LoginPage/index";
 import CheckoutPage from "./CheckoutPage/index";
 import AuthPage from "./AuthPage/index";
 import SingUpPage from "./SingUpPage/index";
-import UserContext from "../contexts/UserContext";
-import TokenContext from "../contexts/TokenContext";
+import UserContext from "./contexts/UserContext.js";
+import TokenContext from "./contexts/TokenContext.js";
 import styled from "styled-components";
 import "./reset.css";
 
