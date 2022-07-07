@@ -1,28 +1,24 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import MainPage from "./MainPage/index";
-import LoginPage from "./LoginPage/index";
-import CheckoutPage from "./CheckoutPage/index";
-import AuthPage from "./AuthPage/index";
-import SingUpPage from "./SingUpPage/index"
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import "./reset.css";
+import "../reset.css";
 
-export default function Header (){
-    <Header>
-        <div>
+export default function Header() {
+  return (
+    <HeaderTop>
+      <div>
         <LinkStyled to="/" style={{ marginLeft: 0 }}>
-            <h2>GR STORE</h2>
+          <h2>GR STORE</h2>
         </LinkStyled>
-        </div>
-        <HeaderIcons>
+      </div>
+      <HeaderIcons>
         <LinkStyled to="/checkout">Carrinho</LinkStyled>
         <LinkStyled to="/login">User</LinkStyled>
-        </HeaderIcons>
-    </Header>
+      </HeaderIcons>
+    </HeaderTop>
+  );
 }
 
-const Header = styled.header`
+const HeaderTop = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,10 +28,9 @@ const Header = styled.header`
   border-bottom: 1px solid black;
   background-color: #004443;
 
-  h2{
-    color:#f9f2e7;
+  h2 {
+    color: #f9f2e7;
   }
-
 `;
 const HeaderIcons = styled.div`
   display: flex;

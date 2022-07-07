@@ -5,50 +5,84 @@ import { useState } from "react";
 import Loading from "../Loading";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordValid, setPasswordValid] = useState('');
-    const [name, setName] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordValid, setPasswordValid] = useState("");
+  const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    function singUp(event){
-      event.preventDefault();
-      setIsLoading(true);
+  function singUp(event) {
+    event.preventDefault();
+    setIsLoading(true);
 
-      const body = {
-        email: email,
-        name: name,
-        password: password,
-        passwordValid: passwordValid
-      }
+    const body = {
+      email: email,
+      name: name,
+      password: password,
+      passwordValid: passwordValid,
+    };
 
-      if(password === passwordValid){
-        const promise = axios.post('https://api-grstore.herokuapp.com/cadastro', body)
-        promise
-        .then(res => {
+    if (password === passwordValid) {
+      const promise = axios.post(
+        "https://api-grstore.herokuapp.com/cadastro",
+        body
+      );
+      promise
+        .then((res) => {
           navigate("/");
           setIsLoading(false);
         })
-        .catch(err => {
+        .catch((err) => {
           alert("Algo deu errado, tente novamente");
           setIsLoading(false);
-        })
-      } else {
-        alert("Senhas não são iguais");
-        setIsLoading(false);
-      }
+        });
+    } else {
+      alert("Senhas não são iguais");
+      setIsLoading(false);
+    }
   }
   return (
     <>
       <Form onSubmit={singUp}>
         <h3>Faça seu cadastro na GR STORE</h3>
-        <Input type={"text"} placeholder="Nome"  value={name} required onChange={e => setName(e.target.value)} disabled={isLoading} />
-        <Input type={"text"} placeholder="Email" value={email} required onChange={e => setEmail(e.target.value)} disabled={isLoading}/>
-        <Input type={"password"} placeholder="Senha" value={password} required onChange={e => setPassword(e.target.value)} disabled={isLoading}/>
-        <Input type={"password"} placeholder="Confirme sua senha" value={passwordValid} required onChange={e => setPasswordValid(e.target.value)} disabled={isLoading}/>
-        <Button type="submit" disabled={isLoading}>{" "} {isLoading ? <Loading /> : "Cadastrar"}</Button>
+        <Input
+          type={"text"}
+          placeholder="Nome"
+          value={name}
+          required
+          onChange={(e) => setName(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          type={"text"}
+          placeholder="Email"
+          value={email}
+          required
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          type={"password"}
+          placeholder="Senha"
+          value={password}
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+        />
+        <Input
+          type={"password"}
+          placeholder="Confirme sua senha"
+          value={passwordValid}
+          required
+          onChange={(e) => setPasswordValid(e.target.value)}
+          disabled={isLoading}
+        />
+        <Button type="submit" disabled={isLoading}>
+          {" "}
+          {isLoading ? <Loading /> : "Cadastrar"}
+        </Button>
       </Form>
     </>
   );
@@ -62,59 +96,58 @@ const Form = styled.form`
   margin-top: 100px;
   width: 80%;
 
-  h3{
-    text-align:center;
+  h3 {
+    text-align: center;
     font-size: 28px;
     width: 260px;
     margin-bottom: 15px;
-    font-family: 'Raleway';
+    font-family: "Raleway";
     font-style: normal;
     font-weight: 700;
     color: #004443;
   }
-
 `;
 
 const Input = styled.input`
-    box-sizing: border-box;
-    width: 303px;
-    height: 45px;
-    background: #FFFFFF;
-    border: 1px solid #D5D5D5;
-    border-radius: 5px;
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 19.976px;
-    color: #666666;
-    margin: 4px;
+  box-sizing: border-box;
+  width: 303px;
+  height: 45px;
+  background: #ffffff;
+  border: 1px solid #d5d5d5;
+  border-radius: 5px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19.976px;
+  color: #666666;
+  margin: 4px;
 
-    &::placeholder{
-        color: #b2bec2;
-        padding-left: 10px;
-    }
+  &::placeholder {
+    color: #b2bec2;
+    padding-left: 10px;
+  }
 `;
 
 const Button = styled.button`
-    width: 303px;
-    height: 45px;
-    background: #00c16c ;
-    border-radius: 4.63636px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Raleway';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20.976px;
-    line-height: 26px;
-    text-align: center;
-    color: #FFFFFF;
-    margin: 5px;
-    padding: 0;
-    margin:0;
-    border: none;
-    margin-bottom: 50px;
-    margin-top: 15px;
+  width: 303px;
+  height: 45px;
+  background: #00c16c;
+  border-radius: 4.63636px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20.976px;
+  line-height: 26px;
+  text-align: center;
+  color: #ffffff;
+  margin: 5px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  margin-bottom: 50px;
+  margin-top: 15px;
 `;
