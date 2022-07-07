@@ -1,28 +1,25 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import MainPage from "./MainPage/index";
-import LoginPage from "./LoginPage/index";
-import CheckoutPage from "./CheckoutPage/index";
-import AuthPage from "./AuthPage/index";
-import SingUpPage from "./SingUpPage/index"
 import styled from "styled-components";
-import "./reset.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import "../reset.css";
 
 export default function Header (){
-    <Header>
-        <div>
-        <LinkStyled to="/" style={{ marginLeft: 0 }}>
-            <h2>GR STORE</h2>
-        </LinkStyled>
-        </div>
-        <HeaderIcons>
-        <LinkStyled to="/checkout">Carrinho</LinkStyled>
-        <LinkStyled to="/login">User</LinkStyled>
-        </HeaderIcons>
-    </Header>
+  return (
+    <HeaderTop>
+      <div>
+      <LinkStyled to="/" style={{ marginLeft: 0 }}>
+          <h2>GR STORE</h2>
+      </LinkStyled>
+      </div>
+      <HeaderIcons>
+      <LinkStyled to="/checkout">Carrinho</LinkStyled>
+      <LinkStyled to="/login">User</LinkStyled>
+      </HeaderIcons>
+    </HeaderTop>
+  )
+
 }
 
-const Header = styled.header`
+const HeaderTop = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
