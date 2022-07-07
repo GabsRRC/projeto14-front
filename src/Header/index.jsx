@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "../reset.css";
@@ -17,6 +18,26 @@ export default function Header (){
     </HeaderTop>
   )
 
+=======
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import "../reset.css";
+
+export default function Header() {
+  return (
+    <HeaderTop>
+      <div>
+        <LinkStyled to="/" style={{ marginLeft: 0 }}>
+          <h2>GR STORE</h2>
+        </LinkStyled>
+      </div>
+      <HeaderIcons>
+        <LinkStyled to="/checkout">Carrinho</LinkStyled>
+        <LinkStyled to="/login">User</LinkStyled>
+      </HeaderIcons>
+    </HeaderTop>
+  );
+>>>>>>> 853373c4ea20a8b421bffaf94f2652013a74a005
 }
 
 const HeaderTop = styled.header`
@@ -29,10 +50,9 @@ const HeaderTop = styled.header`
   border-bottom: 1px solid black;
   background-color: #004443;
 
-  h2{
-    color:#f9f2e7;
+  h2 {
+    color: #f9f2e7;
   }
-
 `;
 const HeaderIcons = styled.div`
   display: flex;
