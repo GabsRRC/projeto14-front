@@ -2,21 +2,20 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "../reset.css";
 
-export default function Header (){
+export default function Header() {
   return (
     <HeaderTop>
       <div>
-      <LinkStyled to="/" style={{ marginLeft: 0 }}>
+        <LinkStyled to="/" style={{ marginLeft: 0 }}>
           <h2>GR STORE</h2>
-      </LinkStyled>
+        </LinkStyled>
       </div>
       <HeaderIcons>
-      <LinkStyled to="/checkout">Carrinho</LinkStyled>
-      <LinkStyled to="/login">User</LinkStyled>
+        <LinkStyled to="/checkout">Carrinho</LinkStyled>
+        <LinkStyled to="/auth">User</LinkStyled>
       </HeaderIcons>
     </HeaderTop>
-  )
-
+  );
 }
 
 const HeaderTop = styled.header`
@@ -46,4 +45,5 @@ const LinkStyled = styled(Link)`
   color: initial;
   text-decoration: none;
   margin-left: 10px;
+  color: white;
 `;

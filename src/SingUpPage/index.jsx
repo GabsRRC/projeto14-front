@@ -18,10 +18,10 @@ export default function LoginPage() {
     setIsLoading(true);
 
     const body = {
-      email: email,
-      name: name,
-      password: password,
-      passwordValid: passwordValid,
+      email,
+      name,
+      password,
+      passwordValid,
     };
 
     if (password === passwordValid) {
@@ -80,7 +80,6 @@ export default function LoginPage() {
           disabled={isLoading}
         />
         <Button type="submit" disabled={isLoading}>
-          {" "}
           {isLoading ? <Loading /> : "Cadastrar"}
         </Button>
       </Form>
