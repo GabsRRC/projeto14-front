@@ -8,6 +8,7 @@ import SingUpPage from "./SingUpPage/index";
 import UserContext from "./contexts/UserContext.js";
 import TokenContext from "./contexts/TokenContext.js";
 import Header from "./Header/index";
+import Footer from "./Footer/index"
 import styled from "styled-components";
 import "./reset.css";
 
@@ -29,11 +30,7 @@ export default function App() {
               <Route path="/auth" element={<AuthPage />} />
             </Routes>
           </Container>
-          <Footer>
-            <p>GR Store</p>
-            <p>Copyright©2022</p>
-            <p>Todos os direitos reservados.</p>
-          </Footer>
+          <Footer/>
         </BrowserRouter>
       </TokenContext.Provider>
     </UserContext.Provider>
@@ -48,13 +45,3 @@ const Container = styled.div`
   margin-top: 40px;
 `;
 
-const Footer = styled.footer`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #002e34;
-  height: 12vh;
-  width: 100%;
-  gap: 22px;
-  color: #f9f2e7;
-`;

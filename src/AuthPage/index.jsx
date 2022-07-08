@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 export default function AuthPage() {
   return (
-    <>
+    <Container>
       <p>Já tem cadastro?</p>
       <Link to="/login">
         <Button>Logar</Button>
@@ -23,9 +23,20 @@ export default function AuthPage() {
       <Link to="/">
         <Button> Logout </Button>
       </Link>
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  font-family: roboto;
+
+  p{
+    font-weight: 700;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    
+  }
+`
 
 const Button = styled.div`
   width: 303px;
@@ -48,4 +59,10 @@ const Button = styled.div`
   margin: 0;
   border: none;
   margin-bottom: 50px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+
+  :hover{
+    background-color: darkgreen;
+    font-size: 24px;
+  }
 `;
