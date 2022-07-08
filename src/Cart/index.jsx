@@ -1,10 +1,243 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
+import CartContext from "../contexts/CartContext.js";
 
 export default function Cart() {
+  //Ao clique de adicionar carrinho de um usuario => adicionar a um array vazio o array item e adicionar propriedade qtd : 1;
+  const { cart } = useContext(CartContext);
+  return (
+    <CartStyled>
+      <CartProducts>
+        <h1> Produtos do carrinho</h1>
+        <Products>
+          {cart.length === 0 ? (
+            <EmptyCart>
+              <p>Carrinho está vazio!</p>{" "}
+              <p>
+                Por favor, primeiro adicione um item ao carrinho e depois volte
+                aqui
+              </p>
+            </EmptyCart>
+          ) : (
+            cart.map((product, key) => {
+              return (
+                <Product
+                  value={product.value}
+                  name={product.name}
+                  description={product.description}
+                  image={product.image}
+                  id={product._id}
+                  key={key}
+                  qtd={product.qtd}
+                  isEmpty={cart}
+                />
+              );
+            })
+          )}
+        </Products>
+        {cart.length === 0 ? (
+          ""
+        ) : (
+          <Checkout>
+            <LinkStyled to="/checkout">Prossiga para o pagamento!</LinkStyled>
+          </Checkout>
+        )}
+      </CartProducts>
+    </CartStyled>
+  );
+}
+function Product({ value, name, description, image, isLogged, id, qtd }) {
   return (
     <>
-      <div>Carrinho</div>
-      <Link to="/checkout">Prossiga para o pagamento!</Link>
+      <ProductStyled>
+        <div className="product">
+          <div>
+            <img src={image} alt={description} />
+          </div>
+
+          <div className="lista">
+            <span className="titulo">{name}</span>
+            <span className="value">R$ {value * 0.9} à vista no PIX</span>
+            <span className="parcela"> 10x de R${value / 10} sem juros </span>
+            <span className="quantidade">Quantidade : {qtd}</span>
+          </div>
+        </div>
+      </ProductStyled>
     </>
   );
 }
+const CartStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+`;
+const CartProducts = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 50px;
+`;
+const Products = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ProductStyled = styled.div`
+  //height: 200px;
+  //background-color: #FFFFFF;
+  //margin-top: 10px;
+  width: 330px;
+  border-bottom-style: solid;
+  border-bottom-color: lightgray;
+  border-bottom-width: 1px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  position: relative;
+  font-family: "roboto slab";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  display: flex;
+  justify-content: space-between;
+
+  .each {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+
+  img {
+    width: 130px;
+    height: 130px;
+    margin-left: 8px;
+  }
+
+  .product {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .titulo {
+    color: black;
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 22px;
+  }
+  .quantidade {
+    color: #3a3838;
+    margin-top: 2px;
+  }
+
+  .button {
+    width: 200px;
+    height: 30px;
+    background-color: #c71515;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin: 6px 6px 6px 0;
+
+    :hover {
+      background-color: darkgreen;
+      cursor: pointer;
+      //margin: 10px;
+      font-size: 19px;
+    }
+  }
+
+  h6 {
+    margin-top: 4px;
+  }
+
+  .value {
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: -1.1px;
+    margin: 3px 0 3px 0;
+  }
+
+  .cart {
+    width: 200px;
+    height: 30px;
+    //background-color: orange;
+    border-radius: 5px;
+    //text-align: center;
+    font-weight: 700;
+    //color:white;
+    color: #c2581e;
+    //ssssbox-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin: 6px 3px 6px 0px;
+    text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.12);
+    :hover {
+      color: darkgreen;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  }
+
+  .parcela {
+    color: gray;
+    margin: 3px 0;
+  }
+
+  .lista {
+    display: flex;
+    flex-direction: column;
+    margin-left: 18px;
+  }
+`;
+
+const Checkout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+
+  .title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+`;
+
+const EmptyCart = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  p {
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+`;
+
+const LinkStyled = styled(Link)`
+  text-decoration: none;
+  margin: 5px;
+  border-radius: 8px;
+  font-size: 20px;
+  padding: 8px;
+  text-decoration: none;
+  background-color: #004443;
+  color: white;
+  font-weight: bold;
+`;

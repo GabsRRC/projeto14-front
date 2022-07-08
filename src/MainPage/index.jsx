@@ -10,18 +10,20 @@ import UserContext from "../contexts/UserContext.js";
 import TokenContext from "../contexts/TokenContext.js";
 import axios from "axios";
 import { PacmanLoader } from "react-spinners";
+import CartContext from "../contexts/CartContext.js";
 
 export default function RenderProducts() {
   const [products, setProducts] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const { token } = useContext(TokenContext);
   const userInfo = useContext(UserContext);
+  const { cart, setCart } = useContext(CartContext);
 
   useEffect(() => {
     const promise = axios.get("http://localhost:5000/products");
 
     promise.then((response) => {
-      setIsLogged(isLoggedUser);
+      //setIsLogged(isLoggedUser);
       setProducts([...response.data]);
     });
   }, []);
@@ -34,6 +36,28 @@ export default function RenderProducts() {
       console.log("Usuário logado");
       return true;
     }
+  }
+
+  function addItemToCart(id, value, name, description, image) {
+    const cartCopy = [...cart];
+    const product = {
+      _id: id,
+      name: name,
+      description: description,
+      value: value,
+      image: image,
+    };
+    const itemExist = cartCopy.find((item) => item._id === id);
+
+    console.log(itemExist);
+    if (!itemExist) {
+      cartCopy.push({ ...product, qtd: 1 });
+      setCart(cartCopy);
+    } else {
+      itemExist.qtd = itemExist.qtd + 1;
+      setCart(cartCopy);
+    }
+    console.log(cartCopy);
   }
 
   if (products.length < 1) {
@@ -50,9 +74,11 @@ export default function RenderProducts() {
             <Products
               value={product.value}
               key={product._id}
-              name={product.title}
+              id={product._id}
+              name={product.name}
               image={product.image}
               description={product.description}
+              addItemToCart={addItemToCart}
               isLogged={isLogged}
             />
           ))}
@@ -62,7 +88,15 @@ export default function RenderProducts() {
   }
 }
 
-function Products({ value, name, description, image, isLogged }) {
+function Products({
+  value,
+  name,
+  description,
+  image,
+  isLogged,
+  id,
+  addItemToCart,
+}) {
   return (
     <Product>
       <div className="product">
@@ -80,7 +114,12 @@ function Products({ value, name, description, image, isLogged }) {
           </span>
           <span className="cart">
             {" "}
-            <h6> Adicionar ao carrinho </h6>{" "}
+            <h6
+              onClick={() => addItemToCart(id, value, name, description, image)}
+            >
+              {" "}
+              Adicionar ao carrinho{" "}
+            </h6>{" "}
           </span>
         </div>
       </div>

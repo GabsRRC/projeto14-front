@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "../reset.css";
-import cart from "../assets/cart.svg";
+import cartImage from "../assets/cart.svg";
 import person from "../assets/person.svg";
 import cartoutline from "../assets/cart-outline.svg";
 import personoutline from "../assets/person-outline.svg";
+import { useContext } from "react";
+import UserContext from "../contexts/UserContext.js";
+import CartContext from "../contexts/CartContext.js";
 
 export default function Header() {
+  const { userInfo } = useContext(UserContext);
+  const cart = useContext(CartContext);
+  console.log(userInfo);
   return (
     <HeaderTop>
       <div>
@@ -16,10 +22,16 @@ export default function Header() {
       </div>
       <HeaderIcons>
         <LinkStyled to="/cart">
-          <img src={cart} />
+          <div>
+            <img src={cartImage} />
+          </div>
+          <p className="quantidade">{cart.cart.length}</p>
         </LinkStyled>
         <LinkStyled to="/auth">
-          <img src={person} />{" "}
+          <div>
+            <img src={person} />
+          </div>
+          <p className="username">{userInfo.name}</p>
         </LinkStyled>
       </HeaderIcons>
     </HeaderTop>
@@ -52,6 +64,7 @@ const HeaderIcons = styled.div`
 `;
 
 const LinkStyled = styled(Link)`
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,10 +73,30 @@ const LinkStyled = styled(Link)`
   text-decoration: none;
   margin-left: 10px;
   color: white;
+  position: relative;
 
   img {
     height: 32px;
     width: 32px;
-    margin: 5px;
+    margin: 5px 0;
+  }
+  .quantidade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-color: #3ac2c0;
+    opacity: 0.89;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: -3px;
+    right: -2px;
+  }
+  .username {
+    position: absolute;
+    bottom: -10px;
   }
 `;
