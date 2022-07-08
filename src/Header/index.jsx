@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "../reset.css";
-import cart from "../assets/cart.svg"
-import person from "../assets/person.svg"
-import cartoutline from "../assets/cart-outline.svg"
-import personoutline from "../assets/person-outline.svg"
-
+import cart from "../assets/cart.svg";
+import person from "../assets/person.svg";
+import cartoutline from "../assets/cart-outline.svg";
+import personoutline from "../assets/person-outline.svg";
 
 export default function Header() {
   return (
@@ -16,8 +15,12 @@ export default function Header() {
         </LinkStyled>
       </div>
       <HeaderIcons>
-        <LinkStyled to="/checkout"><img src={cart}/></LinkStyled>
-        <LinkStyled to="/auth"><img src={person}/> </LinkStyled>
+        <LinkStyled to="/cart">
+          <img src={cart} />
+        </LinkStyled>
+        <LinkStyled to="/auth">
+          <img src={person} />{" "}
+        </LinkStyled>
       </HeaderIcons>
     </HeaderTop>
   );
@@ -49,6 +52,10 @@ const HeaderIcons = styled.div`
 `;
 
 const LinkStyled = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   color: initial;
   text-decoration: none;
   margin-left: 10px;

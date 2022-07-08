@@ -3,7 +3,7 @@
 Três pontinhos carregando [...]
 
 */
-import { PacmanLoader } from "react-spinners";
+
 import { ThreeDots } from "react-loader-spinner";
 
 const Loading = () => {
@@ -20,13 +20,4 @@ const Loading = () => {
   );
 };
 
-const Pacman = () => {
-  return (
-    <>
-      <PacmanLoader/>
-    </>
-  );
-};
-
-
-export default {Loading , Pacman};
+export default Loading;

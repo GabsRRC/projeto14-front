@@ -8,7 +8,8 @@ import SingUpPage from "./SingUpPage/index";
 import UserContext from "./contexts/UserContext.js";
 import TokenContext from "./contexts/TokenContext.js";
 import Header from "./Header/index";
-import Footer from "./Footer/index"
+import Footer from "./Footer/index";
+import Cart from "./Cart";
 import styled from "styled-components";
 import "./reset.css";
 
@@ -24,13 +25,14 @@ export default function App() {
           <Container>
             <Routes>
               <Route path="/" element={<MainPage />} />
+              <Route path="/auth" element={<AuthPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/cadastro" element={<SingUpPage />} />
+              <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/auth" element={<AuthPage />} />
             </Routes>
           </Container>
-          <Footer/>
+          <Footer />
         </BrowserRouter>
       </TokenContext.Provider>
     </UserContext.Provider>
@@ -44,4 +46,3 @@ const Container = styled.div`
   min-height: 80vh;
   margin-top: 40px;
 `;
-

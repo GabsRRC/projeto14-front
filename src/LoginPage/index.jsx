@@ -39,9 +39,9 @@ export default function LoginPage() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
-      <h3>Faça seu login na GR STORE</h3>
+        <h3>Faça seu login na GR STORE</h3>
         <Input
-          type={"email"}
+          type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => {
@@ -51,7 +51,7 @@ export default function LoginPage() {
           required
         />
         <Input
-          type={"password"}
+          type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -59,7 +59,7 @@ export default function LoginPage() {
           required
         />
         {isLoading ? (
-          <Button disabled={isLoading}>
+          <Button>
             <Loading />
           </Button>
         ) : (
@@ -76,7 +76,7 @@ const Form = styled.form`
   align-items: center;
   justify-content: center;
   margin-top: 100px;
-  width: 80%;
+  width: 75%;
 
   h3 {
     text-align: center;
@@ -91,7 +91,7 @@ const Form = styled.form`
 `;
 const Input = styled.input`
   box-sizing: border-box;
-  width: 303px;
+  width: 100%;
   height: 45px;
   background: #ffffff;
   border: 1px solid #d5d5d5;
@@ -102,7 +102,8 @@ const Input = styled.input`
   font-size: 19.976px;
   color: #666666;
   margin: 4px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   &::placeholder {
     color: #b2bec2;
@@ -110,7 +111,7 @@ const Input = styled.input`
   }
 `;
 const Button = styled.button`
-  width: 303px;
+  width: 100%;
   height: 45px;
   background: #00c16c;
   border-radius: 4.63636px;
@@ -133,7 +134,7 @@ const Button = styled.button`
   margin-top: 15px;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 
-  :hover{
+  :hover {
     background-color: darkgreen;
     cursor: pointer;
     font-size: 24px;
