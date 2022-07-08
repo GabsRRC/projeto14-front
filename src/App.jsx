@@ -7,6 +7,7 @@ import AuthPage from "./AuthPage/index";
 import SingUpPage from "./SingUpPage/index";
 import UserContext from "./contexts/UserContext.js";
 import TokenContext from "./contexts/TokenContext.js";
+import CartContext from "./contexts/CartContext.js";
 import Header from "./Header/index";
 import Footer from "./Footer/index";
 import Cart from "./Cart";
@@ -16,24 +17,27 @@ import "./reset.css";
 export default function App() {
   const [token, setToken] = useState("");
   const [userInfo, setUserInfo] = useState({});
+  const [cart, setCart] = useState([]);
 
   return (
     <UserContext.Provider value={{ userInfo, setUserInfo }}>
       <TokenContext.Provider value={{ token, setToken }}>
-        <BrowserRouter>
-          <Header />
-          <Container>
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/cadastro" element={<SingUpPage />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-            </Routes>
-          </Container>
-          <Footer />
-        </BrowserRouter>
+        <CartContext.Provider value={{ cart, setCart }}>
+          <BrowserRouter>
+            <Header />
+            <Container>
+              <Routes>
+                <Route path="/" element={<MainPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/cadastro" element={<SingUpPage />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+              </Routes>
+            </Container>
+            <Footer />
+          </BrowserRouter>
+        </CartContext.Provider>
       </TokenContext.Provider>
     </UserContext.Provider>
   );
