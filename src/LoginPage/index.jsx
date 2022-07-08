@@ -39,6 +39,7 @@ export default function LoginPage() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+      <h3>Faça seu login na GR STORE</h3>
         <Input
           type={"email"}
           placeholder="Email"
@@ -101,6 +102,7 @@ const Input = styled.input`
   font-size: 19.976px;
   color: #666666;
   margin: 4px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   &::placeholder {
     color: #b2bec2;
@@ -129,4 +131,11 @@ const Button = styled.button`
   border: none;
   margin-bottom: 50px;
   margin-top: 15px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+
+  :hover{
+    background-color: darkgreen;
+    cursor: pointer;
+    font-size: 24px;
+  }
 `;
