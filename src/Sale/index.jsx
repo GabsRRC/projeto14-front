@@ -11,9 +11,9 @@ import TokenContext from "../contexts/TokenContext.js";
 import axios from "axios";
 import { PacmanLoader } from "react-spinners";
 import CartContext from "../contexts/CartContext.js";
-import RenderSale from "../Sale/index.jsx";
+//import dayjs from dayjs;
 
-export default function RenderProducts() {
+export default function RenderSale() {
   const [products, setProducts] = useState([]);
   const [isLogged, setIsLogged] = useState(false);
   const { token } = useContext(TokenContext);
@@ -69,10 +69,9 @@ export default function RenderProducts() {
     );
   } else {
     return (
-      <Container>
-        <RenderSale/>
-        <Menu/>
-        <>
+    <Sale>
+    <h4>OFERTAS</h4>
+        <Container>
           {products.map((product) => (
             <Products
               value={product.value}
@@ -85,21 +84,10 @@ export default function RenderProducts() {
               isLogged={isLogged}
             />
           ))}
-        </>
-      </Container>
+        </Container>
+    </Sale>
     );
   }
-}
-
-function Menu({}){
-  return (
-    <Top>
-      <span className="h4" >TODOS</span >
-      <span className="h4" >SERIE</span >
-      <span className="h4" >FILME</span >
-      <span className="h4" >ANIME</span >
-    </Top>
-  )
 }
 
 function Products({
@@ -114,14 +102,14 @@ function Products({
   return (
     <Product>
       <div className="product">
+        <span className="titulo">{name}</span>
         <div>
           <img src={image} alt={description} />
         </div>
 
         <div className="lista">
-          <span className="titulo">{name}</span>
-          <span className="value">R$ {value * 0.9} à vista no PIX</span>
-          <span className="parcela"> 10x de R${value / 10} sem juros </span>
+            <span className="parcela"> De R${value.toFixed(2)} </span>
+            <span className="value">Por apenas R${(value*0.75).toFixed(2)}</span>
           <span className="button">
             {" "}
             <h6> COMPRAR AGORA</h6>{" "}
@@ -142,26 +130,12 @@ function Products({
 }
 
 //Styles
-
-const Top = styled.div`
-  width: 400px;
-  display: flex;
-  justify-content: space-around;
-  margin-top: -15px;
-  margin-bottom: 25px;
-  
-
-  .h4{
-    font-family: "roboto";
-    font-weight: 700;
-    font-size: 22px;
-    color: white;
-    background-color: green;
-    width: 90px;
-    height: 30px;
-    border-radius: 5px;
-    text-align: center;
-    padding-top: 4px;
+const Sale = styled.div`
+  h4 {
+    //color: #f9f2e7;
+    font-family: "alfa slab one";
+    font-size: 20px;
+    margin-left: 10px;
   }
 `
 
@@ -180,17 +154,18 @@ const None = styled.div`
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-bottom: 55px;
+  flex-direction: row;
+  overflow: scroll;
+  width: 400px;
+  margin-bottom: 40px;
+  
 `;
 
 const Product = styled.div`
   //height: 200px;
-  //background-color: #FFFFFF;
+  background-color: #FFFFFF;
   //margin-top: 10px;
-  border-bottom-style: solid;
-  border-bottom-color: lightgray;
-  border-bottom-width: 2px;
+
   padding-bottom: 10px;
   padding-top: 10px;
   position: relative;
@@ -202,6 +177,7 @@ const Product = styled.div`
   color: #000000;
   display: flex;
   justify-content: space-between;
+  
 
   .each {
     margin-left: 8px;
@@ -209,25 +185,32 @@ const Product = styled.div`
   }
 
   img {
-    width: 130px;
-    height: 130px;
-    box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 38px,
-      rgba(0, 0, 0, 0.24) 0px 15px 12px;
+    width: 100px;
+    height: 100px;
+    //box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    //rgba(0, 0, 0, 0.33) 0px 15px 12px;
     margin-left: 8px;
-    border: solid 3px lightgray;
-    border-radius: 4px;
+
   }
 
   .product {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items:center;
+    //background-color:red;
+    margin: 5px;
+    border: solid 4px lightgray;
+    border-radius: 6px;
+
   }
 
   .titulo {
     color: black;
     font-weight: bold;
     margin-bottom: 4px;
-    font-size: 22px;
+    font-size: 20px;
+    margin-top: 3px;
   }
 
   .button {
@@ -240,7 +223,7 @@ const Product = styled.div`
     color: white;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
       rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    margin: 6px 6px 6px 0;
+    margin: 6px 16px 0px 0;
 
     :hover {
       background-color: darkgreen;
@@ -256,7 +239,7 @@ const Product = styled.div`
 
   .value {
     color: green;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     letter-spacing: -1.1px;
     margin: 3px 0 3px 0;
@@ -272,7 +255,7 @@ const Product = styled.div`
     //color:white;
     color: #c2581e;
     //ssssbox-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    margin: 6px 3px 6px 0px;
+    margin: 6px 3px 6px 14px;
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.12);
     :hover {
       color: darkgreen;
@@ -284,6 +267,7 @@ const Product = styled.div`
   .parcela {
     color: gray;
     margin: 3px 0;
+    text-decoration: line-through;
   }
 
   .lista {
