@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import Loading from "../Loading";
+import joi from "joi";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,9 @@ export default function LoginPage() {
   const [passwordValid, setPasswordValid] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [textPassword, setTextPassword] = useState("");
+  const [textName, setTextName] = useState("");
+  const [textEmail, setTextEmail] = useState("");
 
   const navigate = useNavigate();
 
@@ -18,15 +22,30 @@ export default function LoginPage() {
     setIsLoading(true);
 
     const body = {
-      email,
-      name,
-      password,
-      passwordValid,
+      email ,
+      name ,
+      password, 
+      passwordValid 
     };
 
-    if (password === passwordValid) {
+    if(name.length < 4){
+      setTextName("nome pequeno");
+      setIsLoading(false);
+    }
+
+    if (email.length < 4){
+      setTextEmail("email pequeno");
+      setIsLoading(false);
+    }
+
+    if (password !== passwordValid){
+      setTextPassword("senha nao bate");
+      setIsLoading(false);
+    }
+
+    else {
       const promise = axios.post(
-        "https://api-grstore.herokuapp.com/cadastro",
+        "http://localhost:5000/cadastro",
         body
       );
       promise
@@ -38,10 +57,7 @@ export default function LoginPage() {
           alert("Algo deu errado, tente novamente");
           setIsLoading(false);
         });
-    } else {
-      alert("Senhas não são iguais");
-      setIsLoading(false);
-    }
+    } 
   }
   return (
     <>
@@ -55,6 +71,7 @@ export default function LoginPage() {
           onChange={(e) => setName(e.target.value)}
           disabled={isLoading}
         />
+        <p>{textName}</p>
         <Input
           type={"text"}
           placeholder="Email"
@@ -63,6 +80,7 @@ export default function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
         />
+        <p>{textEmail}</p>
         <Input
           type={"password"}
           placeholder="Senha"
@@ -79,6 +97,7 @@ export default function LoginPage() {
           onChange={(e) => setPasswordValid(e.target.value)}
           disabled={isLoading}
         />
+        <p>{textPassword}</p>
         <Button type="submit" disabled={isLoading}>
           {isLoading ? <Loading /> : "Cadastrar"}
         </Button>
@@ -121,6 +140,8 @@ const Input = styled.input`
   color: #666666;
   margin: 4px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+
   
 
   &::placeholder {
