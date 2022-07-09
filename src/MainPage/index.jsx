@@ -31,10 +31,8 @@ export default function RenderProducts() {
 
   function isLoggedUser() {
     if (token === "") {
-      console.log("Usuário não logado!!");
       return false;
     } else {
-      console.log("Usuário logado");
       return true;
     }
   }
@@ -50,7 +48,6 @@ export default function RenderProducts() {
     };
     const itemExist = cartCopy.find((item) => item._id === id);
 
-    console.log(itemExist);
     if (!itemExist) {
       cartCopy.push({ ...product, qtd: 1 });
       setCart(cartCopy);
@@ -58,7 +55,6 @@ export default function RenderProducts() {
       itemExist.qtd = itemExist.qtd + 1;
       setCart(cartCopy);
     }
-    console.log(cartCopy);
   }
 
   if (products.length < 1) {
@@ -70,8 +66,8 @@ export default function RenderProducts() {
   } else {
     return (
       <Container>
-        <RenderSale/>
-        <Menu/>
+        <RenderSale />
+        <Menu />
         <>
           {products.map((product) => (
             <Products
@@ -91,15 +87,15 @@ export default function RenderProducts() {
   }
 }
 
-function Menu({}){
+function Menu({}) {
   return (
     <Top>
-      <span className="h4" >TODOS</span >
-      <span className="h4" >SERIE</span >
-      <span className="h4" >FILME</span >
-      <span className="h4" >ANIME</span >
+      <span className="h4">TODOS</span>
+      <span className="h4">SERIE</span>
+      <span className="h4">FILME</span>
+      <span className="h4">ANIME</span>
     </Top>
-  )
+  );
 }
 
 function Products({
@@ -149,9 +145,8 @@ const Top = styled.div`
   justify-content: space-around;
   margin-top: -15px;
   margin-bottom: 25px;
-  
 
-  .h4{
+  .h4 {
     font-family: "roboto";
     font-weight: 700;
     font-size: 22px;
@@ -163,7 +158,7 @@ const Top = styled.div`
     text-align: center;
     padding-top: 4px;
   }
-`
+`;
 
 const None = styled.div`
   font-family: "Raleway";

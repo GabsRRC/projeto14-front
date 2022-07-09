@@ -12,7 +12,7 @@ import CartContext from "../contexts/CartContext.js";
 export default function Header() {
   const { userInfo } = useContext(UserContext);
   const cart = useContext(CartContext);
-  console.log(userInfo);
+
   return (
     <HeaderTop>
       <div>

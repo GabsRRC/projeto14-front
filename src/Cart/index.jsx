@@ -1,11 +1,65 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import CartContext from "../contexts/CartContext.js";
 
 export default function Cart() {
   //Ao clique de adicionar carrinho de um usuario => adicionar a um array vazio o array item e adicionar propriedade qtd : 1;
-  const { cart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
+  const [totalValue, setTotalValue] = useState(0);
+
+  function cartSum() {
+    let valor = 0;
+
+    cart.map((item) => {
+      valor += item.qtd * item.value;
+    });
+
+    return valor;
+  }
+
+  function addItemFromCart(id, value, name, description, image) {
+    const cartCopy = [...cart];
+    const product = {
+      _id: id,
+      name: name,
+      description: description,
+      value: value,
+      image: image,
+    };
+    const itemExist = cartCopy.find((item) => item._id === id);
+
+    if (!itemExist) {
+      cartCopy.push({ ...product, qtd: 1 });
+      setCart(cartCopy);
+    } else {
+      itemExist.qtd = itemExist.qtd + 1;
+      setCart(cartCopy);
+    }
+  }
+  function removeItemFromCart(id, value, name, description, image) {
+    const cartCopy = [...cart];
+    const product = {
+      _id: id,
+      name: name,
+      description: description,
+      value: value,
+      image: image,
+    };
+    const item = cartCopy.find((item) => item._id === id);
+    if (item.qtd > 1) {
+      item.qtd = item.qtd - 1;
+      setCart(cartCopy);
+    } else {
+      const arrayFiltered = cartCopy.filter(
+        (product) => product._id !== item._id
+      );
+      if (window.confirm("Você deseja excluir o item do carrinho ?")) {
+        setCart(arrayFiltered);
+      }
+    }
+  }
+
   return (
     <CartStyled>
       <CartProducts>
@@ -31,23 +85,49 @@ export default function Cart() {
                   key={key}
                   qtd={product.qtd}
                   isEmpty={cart}
+                  cartSum={cartSum}
+                  addItemFromCart={addItemFromCart}
+                  removeItemFromCart={removeItemFromCart}
                 />
               );
             })
           )}
         </Products>
+
         {cart.length === 0 ? (
           ""
         ) : (
-          <Checkout>
-            <LinkStyled to="/checkout">Prossiga para o pagamento!</LinkStyled>
-          </Checkout>
+          <>
+            <TotalValue>
+              <span>Valor Total: </span>
+              <p>
+                {" "}
+                R$ {cartSum() * 0.9} à vista ou R$ {cartSum()} parcelado em até
+                10X sem juros.
+              </p>
+            </TotalValue>
+
+            <Checkout>
+              <LinkStyled to="/checkout">Prossiga para o pagamento!</LinkStyled>
+            </Checkout>
+          </>
         )}
       </CartProducts>
     </CartStyled>
   );
 }
-function Product({ value, name, description, image, isLogged, id, qtd }) {
+function Product({
+  value,
+  name,
+  description,
+  image,
+  isLogged,
+  id,
+  qtd,
+  cartSum,
+  addItemFromCart,
+  removeItemFromCart,
+}) {
   return (
     <>
       <ProductStyled>
@@ -60,13 +140,57 @@ function Product({ value, name, description, image, isLogged, id, qtd }) {
             <span className="titulo">{name}</span>
             <span className="value">R$ {value * 0.9} à vista no PIX</span>
             <span className="parcela"> 10x de R${value / 10} sem juros </span>
-            <span className="quantidade">Quantidade : {qtd}</span>
+            <span className="quantidade">Quantidade : {qtd} itens</span>
+            <AddRemoveButtons>
+              <Button
+                bgColor={"green"}
+                onClick={() => {
+                  addItemFromCart(id, value, name, description, image);
+                  cartSum();
+                }}
+              >
+                {" "}
+                +{" "}
+              </Button>
+              <Button
+                bgColor={"red"}
+                onClick={() => {
+                  removeItemFromCart(id, value, name, description, image);
+                  cartSum();
+                }}
+              >
+                {" "}
+                -{" "}
+              </Button>
+            </AddRemoveButtons>
           </div>
         </div>
       </ProductStyled>
     </>
   );
 }
+
+const TotalValue = styled.div`
+  margin: 20px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 20px;
+  width: 80%;
+  font-weight: bold;
+  text-align: center;
+  gap: 20px;
+
+  span {
+    color: #032525;
+  }
+  p {
+    line-height: 30px;
+    color: #666;
+  }
+`;
+
 const CartStyled = styled.div`
   display: flex;
   justify-content: space-between;
@@ -136,7 +260,8 @@ const ProductStyled = styled.div`
     font-size: 22px;
   }
   .quantidade {
-    color: #3a3838;
+    font-size: 16px;
+    color: #808080;
     margin-top: 2px;
   }
 
@@ -202,7 +327,21 @@ const ProductStyled = styled.div`
     margin-left: 18px;
   }
 `;
-
+const AddRemoveButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+`;
+const Button = styled.button`
+  border: none;
+  border-radius: 5px;
+  background-color: ${(props) => props.bgColor};
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 1px 7px;
+`;
 const Checkout = styled.div`
   display: flex;
   flex-direction: column;

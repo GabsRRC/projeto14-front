@@ -50,7 +50,6 @@ export default function RenderSale() {
     };
     const itemExist = cartCopy.find((item) => item._id === id);
 
-    console.log(itemExist);
     if (!itemExist) {
       cartCopy.push({ ...product, qtd: 1 });
       setCart(cartCopy);
@@ -58,7 +57,6 @@ export default function RenderSale() {
       itemExist.qtd = itemExist.qtd + 1;
       setCart(cartCopy);
     }
-    console.log(cartCopy);
   }
 
   if (products.length < 1) {
@@ -69,8 +67,8 @@ export default function RenderSale() {
     );
   } else {
     return (
-    <Sale>
-    <h4>OFERTAS</h4>
+      <Sale>
+        <h4>OFERTAS</h4>
         <Container>
           {products.map((product) => (
             <Products
@@ -85,7 +83,7 @@ export default function RenderSale() {
             />
           ))}
         </Container>
-    </Sale>
+      </Sale>
     );
   }
 }
@@ -108,8 +106,10 @@ function Products({
         </div>
 
         <div className="lista">
-            <span className="parcela"> De R${value.toFixed(2)} </span>
-            <span className="value">Por apenas R${(value*0.75).toFixed(2)}</span>
+          <span className="parcela"> De R${value.toFixed(2)} </span>
+          <span className="value">
+            Por apenas R${(value * 0.75).toFixed(2)}
+          </span>
           <span className="button">
             {" "}
             <h6> COMPRAR AGORA</h6>{" "}
@@ -137,7 +137,7 @@ const Sale = styled.div`
     font-size: 20px;
     margin-left: 10px;
   }
-`
+`;
 
 const None = styled.div`
   font-family: "Raleway";
@@ -158,12 +158,11 @@ const Container = styled.div`
   overflow: scroll;
   width: 400px;
   margin-bottom: 40px;
-  
 `;
 
 const Product = styled.div`
   //height: 200px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   //margin-top: 10px;
 
   padding-bottom: 10px;
@@ -177,7 +176,6 @@ const Product = styled.div`
   color: #000000;
   display: flex;
   justify-content: space-between;
-  
 
   .each {
     margin-left: 8px;
@@ -190,19 +188,17 @@ const Product = styled.div`
     //box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     //rgba(0, 0, 0, 0.33) 0px 15px 12px;
     margin-left: 8px;
-
   }
 
   .product {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items:center;
+    align-items: center;
     //background-color:red;
     margin: 5px;
     border: solid 4px lightgray;
     border-radius: 6px;
-
   }
 
   .titulo {
