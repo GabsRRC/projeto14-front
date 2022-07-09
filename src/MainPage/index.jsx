@@ -17,7 +17,7 @@ export default function RenderRegistros() {
 
     useEffect(() => {
         const promise = axios.get(
-          "https://mock-api.driven.com.br/api/v5/cineflex/movies"
+          "localhost:5000/products"
         );
     
         promise.then((response) => {
