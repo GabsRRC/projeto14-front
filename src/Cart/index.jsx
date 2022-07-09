@@ -37,15 +37,9 @@ export default function Cart() {
       setCart(cartCopy);
     }
   }
-  function removeItemFromCart(id, value, name, description, image) {
+  function removeItemFromCart(id) {
     const cartCopy = [...cart];
-    const product = {
-      _id: id,
-      name: name,
-      description: description,
-      value: value,
-      image: image,
-    };
+
     const item = cartCopy.find((item) => item._id === id);
     if (item.qtd > 1) {
       item.qtd = item.qtd - 1;
@@ -155,7 +149,7 @@ function Product({
               <Button
                 bgColor={"red"}
                 onClick={() => {
-                  removeItemFromCart(id, value, name, description, image);
+                  removeItemFromCart(id);
                   cartSum();
                 }}
               >
