@@ -11,7 +11,7 @@ import TokenContext from "../contexts/TokenContext.js";
 import axios from "axios";
 import { PacmanLoader } from "react-spinners";
 import CartContext from "../contexts/CartContext.js";
-//import dayjs from dayjs;
+import dayjs from 'dayjs/esm/index.js'
 
 export default function RenderSale() {
   const [products, setProducts] = useState([]);
@@ -68,7 +68,7 @@ export default function RenderSale() {
   } else {
     return (
       <Sale>
-        <h4>OFERTAS</h4>
+        <h4>OFERTAS DO DIA {dayjs().format('DD/MM')}</h4>
         <Container>
           {products.map((product) => (
             <Products
