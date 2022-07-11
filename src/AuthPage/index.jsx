@@ -32,13 +32,17 @@ export default function AuthPage() {
         <>
           <p>Está de saída?</p>
           
-            <Button> Logout </Button>
+            <Button  onClick={logout}> Logout </Button>
           
         </>
       );
     }
   }
   return <Container>{userLogged()}</Container>;
+}
+
+function logout(){
+  window.location.reload()
 }
 
 
