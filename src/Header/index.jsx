@@ -47,6 +47,9 @@ const HeaderTop = styled.header`
   height: 8vh;
   border-bottom: 1px solid black;
   background-color: #004443;
+  position: fixed;
+  top: 0;
+  z-index: 2;
 
   h2 {
     color: #f9f2e7;

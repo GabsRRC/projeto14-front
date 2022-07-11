@@ -35,6 +35,7 @@ export default function RenderProducts() {
 
   }, []);
 
+
   const searchItems = (searchValue) => {
     setSearchInput(searchValue)
     if (searchInput !== '') {
@@ -48,14 +49,6 @@ export default function RenderProducts() {
     }
 }
 
-
-  function isLoggedUser() {
-    if (token === "") {
-      return false;
-    } else {
-      return true;
-    }
-  }
 
   function addItemToCart(id, value, name, description, image) {
     const cartCopy = [...cart];

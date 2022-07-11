@@ -3,40 +3,55 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import TokenContext from "../contexts/TokenContext.js";
 
 export default function AuthPage() {
-  return (
-    <Container>
-      <p>Já tem cadastro?</p>
-      <Link to="/login">
-        <Button>Logar</Button>
-      </Link>
+  const { token } = useContext(TokenContext);
+  function userLogged() {
+    if (token === "") {
+      return (
+        <>
+          <p>Já tem cadastro?</p>
+          <Link to="/login">
+            <Button>Logar</Button>
+          </Link>
 
-      <p>Primeira vez por aqui?</p>
-      <Link to="/cadastro">
-        <Button> Cadastro </Button>
-      </Link>
-
-      <p>Está de saída?</p>
-      <Link to="/">
-        <Button> Logout </Button>
-      </Link>
-    </Container>
-  );
+          <p>Primeira vez por aqui?</p>
+          <Link to="/cadastro">
+            <Button> Cadastro </Button>
+          </Link>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <p>Está de saída?</p>
+          <Link to="/">
+            <Button> Logout </Button>
+          </Link>
+        </>
+      );
+    }
+  }
+  return <Container>{userLogged()}</Container>;
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 30px;
   font-family: roboto;
 
-  p{
+  p {
     font-weight: 700;
     margin-left: 5px;
     margin-bottom: 5px;
-    
   }
-`
+`;
 
 const Button = styled.div`
   width: 303px;
@@ -61,7 +76,7 @@ const Button = styled.div`
   margin-bottom: 50px;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 
-  :hover{
+  :hover {
     background-color: darkgreen;
     font-size: 24px;
   }
