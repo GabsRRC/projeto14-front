@@ -20,14 +20,34 @@ export default function RenderProducts() {
   const userInfo = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
 
+  const [APIData, setAPIData] = useState([])
+  const [filteredResults, setFilteredResults] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+
   useEffect(() => {
     const promise = axios.get("http://localhost:5000/products");
 
     promise.then((response) => {
       //setIsLogged(isLoggedUser);
-      setProducts([...response.data]);
+      setAPIData([...response.data]);
     });
+
+
   }, []);
+
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue)
+    if (searchInput !== '') {
+        const filteredData = APIData.filter((item) => {
+            return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+        })
+        setFilteredResults(filteredData)
+    }
+    else{
+        setFilteredResults(APIData)
+    }
+}
+
 
   function isLoggedUser() {
     if (token === "") {
@@ -57,7 +77,7 @@ export default function RenderProducts() {
     }
   }
 
-  if (products.length < 1) {
+  if (APIData.length < 1) {
     return (
       <None>
         <PacmanLoader />
@@ -67,35 +87,44 @@ export default function RenderProducts() {
     return (
       <Container>
         <RenderSale />
-        <Menu />
+        <p>O que você está procurando hoje?</p>
+        <input placeholder="Pesquisar..." onChange={(e) => searchItems(e.target.value)}></input>
         <>
-          {products.map((product) => (
-            <Products
-              value={product.value}
-              key={product._id}
-              id={product._id}
-              name={product.name}
-              image={product.image}
-              description={product.description}
-              addItemToCart={addItemToCart}
-              isLogged={isLogged}
-            />
-          ))}
+        {searchInput.length > 1 ? (
+                    filteredResults.map((product) => {
+                        return (
+                          <Products
+                          value={product.value}
+                          key={product._id}
+                          id={product._id}
+                          name={product.name}
+                          image={product.image}
+                          description={product.description}
+                          addItemToCart={addItemToCart}
+                          isLogged={isLogged}
+                        />
+                        )
+                    })
+                ) : (
+                    APIData.map((product) => {
+                        return (
+                          <Products
+                          value={product.value}
+                          key={product._id}
+                          id={product._id}
+                          name={product.name}
+                          image={product.image}
+                          description={product.description}
+                          addItemToCart={addItemToCart}
+                          isLogged={isLogged}
+                        />
+                        )
+                    })
+                )}
         </>
       </Container>
     );
   }
-}
-
-function Menu({}) {
-  return (
-    <Top>
-      <span className="h4">TODOS</span>
-      <span className="h4">SERIE</span>
-      <span className="h4">FILME</span>
-      <span className="h4">ANIME</span>
-    </Top>
-  );
 }
 
 function Products({
@@ -177,12 +206,38 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 55px;
+
+  p{
+    font-family: 'roboto';
+    font-weight: 700;
+    font-size: 20px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+  }
+  input{
+    font-family: 'roboto';
+    box-sizing: border-box;
+    width: 100%;
+    height: 35px;
+    background: #ffffff;
+    
+    border: 1px solid #d5d5d5;
+    border-radius: 5px;
+    //font-family: "Raleway";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #666666;
+    margin: 4px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
 `;
 
 const Product = styled.div`
   //height: 200px;
   //background-color: #FFFFFF;
   //margin-top: 10px;
+  margin-top: 10px;
   border-bottom-style: solid;
   border-bottom-color: lightgray;
   border-bottom-width: 2px;

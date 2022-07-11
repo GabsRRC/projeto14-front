@@ -13,6 +13,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [textCatch, setTextCatch] = useState("");
+  
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -33,7 +35,7 @@ export default function LoginPage() {
     promise.catch((response) => {
       console.log(response.error);
       setIsLoading(false);
-      alert("Usuário ou senha inválidos!");
+      setTextCatch("usuário ou senha inválidos!");
     });
   }
   return (
@@ -58,6 +60,7 @@ export default function LoginPage() {
           disabled={isLoading}
           required
         />
+        <p>{textCatch}</p>
         {isLoading ? (
           <Button>
             <Loading />
@@ -77,6 +80,12 @@ const Form = styled.form`
   justify-content: center;
   margin-top: 100px;
   width: 75%;
+
+  p{
+    color: red;
+    font-size: 12px;
+    font-family: "roboto";
+  }
 
   h3 {
     text-align: center;

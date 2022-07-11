@@ -12,8 +12,10 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [textPassword, setTextPassword] = useState("");
+  const [textValid, setTextValid] = useState("");
   const [textName, setTextName] = useState("");
   const [textEmail, setTextEmail] = useState("");
+  const [textCatch, setTextCatch] = useState("");
 
   const navigate = useNavigate();
 
@@ -21,25 +23,32 @@ export default function LoginPage() {
     event.preventDefault();
     setIsLoading(true);
 
+
     const body = {
-      email ,
-      name ,
+      email,
+      name,
       password, 
       passwordValid 
     };
 
+
     if(name.length < 4){
-      setTextName("nome pequeno");
+      setTextName("nome com mínimo de 4 caracteres");
       setIsLoading(false);
     }
 
     if (email.length < 4){
-      setTextEmail("email pequeno");
+      setTextEmail("email inválido");
+      setIsLoading(false);
+    }
+
+    if (password.length < 4){
+      setTextPassword("senha com mínimo de 4 caracteres");
       setIsLoading(false);
     }
 
     if (password !== passwordValid){
-      setTextPassword("senha nao bate");
+      setTextValid("as senhas não são iguais");
       setIsLoading(false);
     }
 
@@ -55,6 +64,7 @@ export default function LoginPage() {
         })
         .catch((err) => {
           alert("Algo deu errado, tente novamente");
+          setTextCatch("Sua requisição não pode ser processada!")
           setIsLoading(false);
         });
     } 
@@ -89,6 +99,7 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
         />
+        <p>{textPassword}</p>
         <Input
           type={"password"}
           placeholder="Confirme sua senha"
@@ -97,7 +108,8 @@ export default function LoginPage() {
           onChange={(e) => setPasswordValid(e.target.value)}
           disabled={isLoading}
         />
-        <p>{textPassword}</p>
+        <p>{textValid}</p>
+        <p>{textCatch}</p>
         <Button type="submit" disabled={isLoading}>
           {isLoading ? <Loading /> : "Cadastrar"}
         </Button>
@@ -113,6 +125,12 @@ const Form = styled.form`
   justify-content: center;
   margin-top: 100px;
   width: 80%;
+
+  p{
+    color: red;
+    font-size: 12px;
+    font-family: "roboto";
+  }
 
   h3 {
     text-align: center;
