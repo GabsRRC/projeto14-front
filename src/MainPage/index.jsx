@@ -30,7 +30,7 @@ export default function RenderProducts() {
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:5000/products");
+    const promise = axios.get("https://api-grstore.herokuapp.com/products");
 
     promise.then((response) => {
       //setIsLogged(isLoggedUser);

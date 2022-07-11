@@ -24,7 +24,7 @@ export default function RenderSale() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:5000/sale");
+    const promise = axios.get("https://api-grstore.herokuapp.com/sale");
 
     promise.then((response) => {
       //setIsLogged(isLoggedUser);

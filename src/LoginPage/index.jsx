@@ -26,7 +26,7 @@ export default function LoginPage() {
       password,
     };
 
-    const promise = axios.post("http://localhost:5000/login", body);
+    const promise = axios.post("https://api-grstore.herokuapp.com/login", body);
 
     promise.then((response) => {
       setIsLoading(false);

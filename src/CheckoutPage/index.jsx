@@ -47,7 +47,7 @@ export default function Checkout() {
           paymentMethod: payment,
         };
 
-        axios.post("http://localhost:5000/checkout", userCheckout, auth);
+        axios.post("https://api-grstore.herokuapp.com/checkout", userCheckout, auth);
         setCart([]);
         setCheckoutConfirmation("Compra efetuada com sucesso!");
         navigate("/");

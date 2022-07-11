@@ -54,7 +54,7 @@ export default function LoginPage() {
 
     else {
       const promise = axios.post(
-        "http://localhost:5000/cadastro",
+        "https://api-grstore.herokuapp.com/cadastro",
         body
       );
       promise
