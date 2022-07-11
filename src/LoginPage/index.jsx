@@ -4,18 +4,19 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import TokenContext from "../contexts/TokenContext.js";
 import UserContext from "../contexts/UserContext.js";
+import LoginContext from "../contexts/LoginContext.js";
 import Loading from "../Loading/index.jsx";
 import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { loginConfirmation } = useContext(LoginContext);
   const { setUserInfo } = useContext(UserContext);
   const { setToken } = useContext(TokenContext);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [textCatch, setTextCatch] = useState("");
-  
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -41,6 +42,11 @@ export default function LoginPage() {
   }
   return (
     <>
+      {loginConfirmation !== "" ? (
+        <LoginConfirmation>{loginConfirmation}</LoginConfirmation>
+      ) : (
+        ""
+      )}
       <Form onSubmit={handleSubmit}>
         <h3>Faça seu login na GR STORE</h3>
         <Input
@@ -69,8 +75,9 @@ export default function LoginPage() {
         ) : (
           <Button disabled={isLoading}>Entrar</Button>
         )}
-        <Link to="/cadastro"><h5>Ainda não fez seu cadastro? Clique aqui</h5></Link>
-    
+        <Link to="/cadastro">
+          <h5>Ainda não fez seu cadastro? Clique aqui</h5>
+        </Link>
       </Form>
     </>
   );
@@ -81,10 +88,10 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 40px;
   width: 75%;
 
-  p{
+  p {
     color: red;
     font-size: 12px;
     font-family: "roboto";
@@ -101,7 +108,7 @@ const Form = styled.form`
     color: #004443;
   }
 
-  h5{
+  h5 {
     color: green;
     font-size: 16px;
     font-family: "roboto";
@@ -156,4 +163,13 @@ const Button = styled.button`
     cursor: pointer;
     font-size: 24px;
   }
+`;
+const LoginConfirmation = styled.div`
+  color: red;
+  font-size: 22px;
+  font-weight: bold;
+  width: 80%;
+  text-align: center;
+  margin-top: 20px;
+  font-family: "Raleway";
 `;

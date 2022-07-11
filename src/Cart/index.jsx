@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CartContext from "../contexts/CartContext.js";
 import TokenContext from "../contexts/TokenContext.js";
+import LoginContext from "../contexts/LoginContext.js";
 
 export default function Cart() {
   const { cart, setCart } = useContext(CartContext);
   const { token } = useContext(TokenContext);
+  const { setLoginConfirmation } = useContext(LoginContext);
   const navigate = useNavigate();
   function cartSum() {
     let valor = 0;
@@ -47,7 +49,6 @@ export default function Cart() {
     } else {
       const arrayFiltered = cartCopy.filter(
         (product) => product._id !== item._id
-        
       );
       if (window.confirm("Você deseja excluir o item do carrinho ?")) {
         setCart(arrayFiltered);
@@ -58,6 +59,7 @@ export default function Cart() {
     if (isLoggedUser()) {
       navigate("/checkout");
     } else {
+      setLoginConfirmation("Por favor, faça o login para efetuar a compra!");
       navigate("/login");
     }
   }
@@ -389,14 +391,13 @@ const LinkStyled = styled.button`
   text-align: center;
   font-weight: 700;
   color: white;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
-      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
   margin: 6px 6px 6px 0;
-  border:0;
+  border: 0;
 
-    :hover {
-      background-color: darkgreen;
-      cursor: pointer;
-      font-size: 19px;
-    }
+  :hover {
+    background-color: darkgreen;
+    cursor: pointer;
+    font-size: 19px;
+  }
 `;

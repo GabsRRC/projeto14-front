@@ -9,6 +9,7 @@ import UserContext from "./contexts/UserContext.js";
 import TokenContext from "./contexts/TokenContext.js";
 import CartContext from "./contexts/CartContext.js";
 import CheckoutContext from "./contexts/CheckoutContext.js";
+import LoginContext from "./contexts/LoginContext.js";
 import Header from "./Header/index";
 import Footer from "./Footer/index";
 import Cart from "./Cart";
@@ -20,6 +21,7 @@ export default function App() {
   const [userInfo, setUserInfo] = useState({});
   const [cart, setCart] = useState([]);
   const [checkoutConfirmation, setCheckoutConfirmation] = useState("");
+  const [loginConfirmation, setLoginConfirmation] = useState("");
 
   return (
     <UserContext.Provider value={{ userInfo, setUserInfo }}>
@@ -28,20 +30,24 @@ export default function App() {
           <CheckoutContext.Provider
             value={{ checkoutConfirmation, setCheckoutConfirmation }}
           >
-            <BrowserRouter>
-              <Header />
-              <Container>
-                <Routes>
-                  <Route path="/" element={<MainPage />} />
-                  <Route path="/auth" element={<AuthPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/cadastro" element={<SingUpPage />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                </Routes>
-              </Container>
-              <Footer />
-            </BrowserRouter>
+            <LoginContext.Provider
+              value={{ loginConfirmation, setLoginConfirmation }}
+            >
+              <BrowserRouter>
+                <Header />
+                <Container>
+                  <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/auth" element={<AuthPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/cadastro" element={<SingUpPage />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                  </Routes>
+                </Container>
+                <Footer />
+              </BrowserRouter>
+            </LoginContext.Provider>
           </CheckoutContext.Provider>
         </CartContext.Provider>
       </TokenContext.Provider>
