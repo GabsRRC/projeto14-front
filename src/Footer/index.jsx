@@ -1,5 +1,4 @@
 import styled from "styled-components";
-//import "./reset.css";
 import wpp from "../assets/logo-wpp.svg";
 import yt from "../assets/logo-yt.svg";
 import tt from "../assets/logo-tt.svg";

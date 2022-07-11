@@ -6,9 +6,12 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import TokenContext from "../contexts/TokenContext.js";
+import UserContext from "../contexts/UserContext.js";
 
 export default function AuthPage() {
-  const { token } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
+  const { userInfo, setUserInfo } = useContext(UserContext);
+
   function userLogged() {
     if (token === "") {
       return (
@@ -28,15 +31,16 @@ export default function AuthPage() {
       return (
         <>
           <p>Está de saída?</p>
-          <Link to="/">
+          
             <Button> Logout </Button>
-          </Link>
+          
         </>
       );
     }
   }
   return <Container>{userLogged()}</Container>;
 }
+
 
 const Container = styled.div`
   display: flex;
@@ -69,9 +73,6 @@ const Button = styled.div`
   line-height: 26px;
   text-align: center;
   color: #ffffff;
-  margin: 5px;
-  padding: 0;
-  margin: 0;
   border: none;
   margin-bottom: 50px;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;

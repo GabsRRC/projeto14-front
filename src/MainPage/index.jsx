@@ -12,6 +12,7 @@ import axios from "axios";
 import { PacmanLoader } from "react-spinners";
 import CartContext from "../contexts/CartContext.js";
 import RenderSale from "../Sale/index.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function RenderProducts() {
   const [products, setProducts] = useState([]);
@@ -19,6 +20,9 @@ export default function RenderProducts() {
   const { token } = useContext(TokenContext);
   const userInfo = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
+
+  const navigate = useNavigate();
+
 
   const [APIData, setAPIData] = useState([])
   const [filteredResults, setFilteredResults] = useState([]);
@@ -70,6 +74,30 @@ export default function RenderProducts() {
     }
   }
 
+  function buyNow (id, value, name, description, image) {
+    const cartCopy = [...cart];
+    const product = {
+      _id: id,
+      name: name,
+      description: description,
+      value: value,
+      image: image,
+    };
+    const itemExist = cartCopy.find((item) => item._id === id);
+
+    if (!itemExist) {
+      cartCopy.push({ ...product, qtd: 1 });
+      setCart(cartCopy);
+      navigate("/cart");
+    } else {
+      itemExist.qtd = itemExist.qtd + 1;
+      setCart(cartCopy);
+      navigate("/cart");
+    }
+  }
+
+
+
   if (APIData.length < 1) {
     return (
       <None>
@@ -94,6 +122,7 @@ export default function RenderProducts() {
                           image={product.image}
                           description={product.description}
                           addItemToCart={addItemToCart}
+                          buyNow={buyNow}
                           isLogged={isLogged}
                         />
                         )
@@ -109,6 +138,7 @@ export default function RenderProducts() {
                           image={product.image}
                           description={product.description}
                           addItemToCart={addItemToCart}
+                          buyNow={buyNow}
                           isLogged={isLogged}
                         />
                         )
@@ -128,6 +158,7 @@ function Products({
   isLogged,
   id,
   addItemToCart,
+  buyNow
 }) {
   return (
     <Product>
@@ -142,7 +173,7 @@ function Products({
           <span className="parcela"> 10x de R${value / 10} sem juros </span>
           <span className="button">
             {" "}
-            <h6> COMPRAR AGORA</h6>{" "}
+            <h6 onClick={() => buyNow(id, value, name, description, image)}> {" "}COMPRAR AGORA  {" "}</h6>{" "}
           </span>
           <span className="cart">
             {" "}
@@ -160,27 +191,6 @@ function Products({
 }
 
 //Styles
-
-const Top = styled.div`
-  width: 400px;
-  display: flex;
-  justify-content: space-around;
-  margin-top: -15px;
-  margin-bottom: 25px;
-
-  .h4 {
-    font-family: "roboto";
-    font-weight: 700;
-    font-size: 22px;
-    color: white;
-    background-color: green;
-    width: 90px;
-    height: 30px;
-    border-radius: 5px;
-    text-align: center;
-    padding-top: 4px;
-  }
-`;
 
 const None = styled.div`
   font-family: "Raleway";
@@ -213,10 +223,8 @@ const Container = styled.div`
     width: 100%;
     height: 35px;
     background: #ffffff;
-    
     border: 1px solid #d5d5d5;
     border-radius: 5px;
-    //font-family: "Raleway";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -227,9 +235,6 @@ const Container = styled.div`
 `;
 
 const Product = styled.div`
-  //height: 200px;
-  //background-color: #FFFFFF;
-  //margin-top: 10px;
   margin-top: 10px;
   border-bottom-style: solid;
   border-bottom-color: lightgray;
@@ -308,13 +313,9 @@ const Product = styled.div`
   .cart {
     width: 200px;
     height: 30px;
-    //background-color: orange;
     border-radius: 5px;
-    //text-align: center;
     font-weight: 700;
-    //color:white;
     color: #c2581e;
-    //ssssbox-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     margin: 6px 3px 6px 0px;
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.12);
     :hover {

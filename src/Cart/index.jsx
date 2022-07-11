@@ -5,7 +5,6 @@ import CartContext from "../contexts/CartContext.js";
 import TokenContext from "../contexts/TokenContext.js";
 
 export default function Cart() {
-  //Ao clique de adicionar carrinho de um usuario => adicionar a um array vazio o array item e adicionar propriedade qtd : 1;
   const { cart, setCart } = useContext(CartContext);
   const { token } = useContext(TokenContext);
   const navigate = useNavigate();
@@ -48,6 +47,7 @@ export default function Cart() {
     } else {
       const arrayFiltered = cartCopy.filter(
         (product) => product._id !== item._id
+        
       );
       if (window.confirm("Você deseja excluir o item do carrinho ?")) {
         setCart(arrayFiltered);
@@ -222,6 +222,7 @@ const CartProducts = styled.div`
   flex-direction: column;
   width: 100%;
   margin-bottom: 50px;
+  font-family: "roboto";
 `;
 const Products = styled.div`
   display: flex;
@@ -230,9 +231,6 @@ const Products = styled.div`
 `;
 
 const ProductStyled = styled.div`
-  //height: 200px;
-  //background-color: #FFFFFF;
-  //margin-top: 10px;
   width: 330px;
   border-bottom-style: solid;
   border-bottom-color: lightgray;
@@ -292,7 +290,6 @@ const ProductStyled = styled.div`
     :hover {
       background-color: darkgreen;
       cursor: pointer;
-      //margin: 10px;
       font-size: 19px;
     }
   }
@@ -312,13 +309,9 @@ const ProductStyled = styled.div`
   .cart {
     width: 200px;
     height: 30px;
-    //background-color: orange;
     border-radius: 5px;
-    //text-align: center;
     font-weight: 700;
-    //color:white;
     color: #c2581e;
-    //ssssbox-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     margin: 6px 3px 6px 0px;
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.12);
     :hover {
@@ -353,6 +346,7 @@ const Button = styled.button`
   font-weight: bold;
   font-size: 18px;
   padding: 1px 7px;
+  min-width: 25px;
 `;
 const Checkout = styled.div`
   display: flex;
@@ -388,7 +382,21 @@ const LinkStyled = styled.button`
   font-size: 20px;
   padding: 8px;
   text-decoration: none;
-  background-color: #004443;
   color: white;
   font-weight: bold;
+  background-color: #c71515;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 700;
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  margin: 6px 6px 6px 0;
+  border:0;
+
+    :hover {
+      background-color: darkgreen;
+      cursor: pointer;
+      font-size: 19px;
+    }
 `;

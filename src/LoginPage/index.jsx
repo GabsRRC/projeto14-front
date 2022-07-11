@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import TokenContext from "../contexts/TokenContext.js";
 import UserContext from "../contexts/UserContext.js";
 import Loading from "../Loading/index.jsx";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -68,6 +69,8 @@ export default function LoginPage() {
         ) : (
           <Button disabled={isLoading}>Entrar</Button>
         )}
+        <Link to="/cadastro"><h5>Ainda não fez seu cadastro? Clique aqui</h5></Link>
+    
       </Form>
     </>
   );
@@ -96,6 +99,14 @@ const Form = styled.form`
     font-style: normal;
     font-weight: 700;
     color: #004443;
+  }
+
+  h5{
+    color: green;
+    font-size: 16px;
+    font-family: "roboto";
+    font-weight: 700;
+    text-decoration: underline;
   }
 `;
 const Input = styled.input`
@@ -135,9 +146,6 @@ const Button = styled.button`
   line-height: 26px;
   text-align: center;
   color: #ffffff;
-  margin: 5px;
-  padding: 0;
-  margin: 0;
   border: none;
   margin-bottom: 50px;
   margin-top: 15px;

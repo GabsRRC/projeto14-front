@@ -12,6 +12,7 @@ import axios from "axios";
 import { PacmanLoader } from "react-spinners";
 import CartContext from "../contexts/CartContext.js";
 import dayjs from 'dayjs/esm/index.js'
+import { useNavigate } from "react-router-dom";
 
 export default function RenderSale() {
   const [products, setProducts] = useState([]);
@@ -20,8 +21,10 @@ export default function RenderSale() {
   const userInfo = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const promise = axios.get("http://localhost:5000/products");
+    const promise = axios.get("http://localhost:5000/sale");
 
     promise.then((response) => {
       //setIsLogged(isLoggedUser);
@@ -59,6 +62,28 @@ export default function RenderSale() {
     }
   }
 
+  function buyNow (id, value, name, description, image) {
+    const cartCopy = [...cart];
+    const product = {
+      _id: id,
+      name: name,
+      description: description,
+      value: value,
+      image: image,
+    };
+    const itemExist = cartCopy.find((item) => item._id === id);
+
+    if (!itemExist) {
+      cartCopy.push({ ...product, qtd: 1 });
+      setCart(cartCopy);
+      navigate("/cart");
+    } else {
+      itemExist.qtd = itemExist.qtd + 1;
+      setCart(cartCopy);
+      navigate("/cart");
+    }
+  }
+
   if (products.length < 1) {
     return (
       <None>
@@ -79,6 +104,7 @@ export default function RenderSale() {
               image={product.image}
               description={product.description}
               addItemToCart={addItemToCart}
+              buyNow={buyNow}
               isLogged={isLogged}
             />
           ))}
@@ -96,6 +122,7 @@ function Products({
   isLogged,
   id,
   addItemToCart,
+  buyNow
 }) {
   return (
     <Product>
@@ -106,13 +133,13 @@ function Products({
         </div>
 
         <div className="lista">
-          <span className="parcela"> De R${value.toFixed(2)} </span>
+          <span className="parcela"> De R${(value/0.9).toFixed(0)} </span>
           <span className="value">
-            Por apenas R${(value * 0.75).toFixed(2)}
+            Por apenas R${(value)}
           </span>
           <span className="button">
             {" "}
-            <h6> COMPRAR AGORA</h6>{" "}
+            <h6  onClick={() => buyNow(id, value, name, description, image)}> {" "} COMPRAR AGORA {" "}</h6>{" "}
           </span>
           <span className="cart">
             {" "}
@@ -132,7 +159,6 @@ function Products({
 //Styles
 const Sale = styled.div`
   h4 {
-    //color: #f9f2e7;
     font-family: "alfa slab one";
     font-size: 20px;
     margin-left: 10px;
@@ -161,10 +187,7 @@ const Container = styled.div`
 `;
 
 const Product = styled.div`
-  //height: 200px;
   background-color: #ffffff;
-  //margin-top: 10px;
-
   padding-bottom: 10px;
   padding-top: 10px;
   position: relative;
@@ -185,8 +208,6 @@ const Product = styled.div`
   img {
     width: 100px;
     height: 100px;
-    //box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-    //rgba(0, 0, 0, 0.33) 0px 15px 12px;
     margin-left: 8px;
   }
 
@@ -195,7 +216,6 @@ const Product = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    //background-color:red;
     margin: 5px;
     border: solid 4px lightgray;
     border-radius: 6px;
@@ -224,7 +244,6 @@ const Product = styled.div`
     :hover {
       background-color: darkgreen;
       cursor: pointer;
-      //margin: 10px;
       font-size: 19px;
     }
   }
@@ -244,13 +263,9 @@ const Product = styled.div`
   .cart {
     width: 200px;
     height: 30px;
-    //background-color: orange;
     border-radius: 5px;
-    //text-align: center;
     font-weight: 700;
-    //color:white;
     color: #c2581e;
-    //ssssbox-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     margin: 6px 3px 6px 14px;
     text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.12);
     :hover {

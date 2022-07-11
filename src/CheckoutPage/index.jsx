@@ -5,18 +5,23 @@ import CartContext from "../contexts/CartContext.js";
 import pix from "../assets/pix-106.svg";
 import creditCard from "../assets/credit-card.svg";
 import boleto from "../assets/boleto.svg";
+import TokenContext from "../contexts/TokenContext.js";
 
 export default function Checkout() {
-  //Ao clique de adicionar carrinho de um usuario => adicionar a um array vazio o array item e adicionar propriedade qtd : 1;
   const { cart, setCart } = useContext(CartContext);
   const [payment, setPaymant] = useState("");
+  const [alertText, setAlertText] = useState("");
+  const {token} = useContext(TokenContext)
 
   function choosePaymentMethod(e) {}
   function payFinish() {
     if (payment !== "") {
       console.log("Pagou");
-    } else {
-      alert("Por favor selecione uma forma de pagamento!");
+      console.log(payment);
+      console.log(cart);
+      console.log(token);
+
+      setAlertText("Escolha um método de pagamento para prosseguir!")
     }
   }
   return (
@@ -59,6 +64,7 @@ export default function Checkout() {
       </CheckoutMetods>
 
       <button onClick={payFinish}>Finalizar o pagamento!</button>
+      <p>{alertText}</p>
     </CheckoutStyled>
   );
 }
@@ -69,6 +75,16 @@ const CheckoutStyled = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  font-family: "roboto";
+  text-align: center;
+
+p{
+  color: red;
+  margin-top: 50px;
+  font-weight: 700;
+  font-size: 22px;
+}
+
   h1 {
     font-size: 24px;
     font-weight: bold;
@@ -80,9 +96,27 @@ const CheckoutStyled = styled.div`
     margin-top: 25px;
     border-radius: 10px;
     font-size: 20px;
-    background-color: #044443;
     color: white;
     border: none;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 20px;
+    padding: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #c71515;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+      rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    border:0;
+
+    :hover {
+      background-color: darkgreen;
+      cursor: pointer;
+      font-size: 19px;
+    }
   }
 `;
 const CheckoutMetods = styled.div`
@@ -115,22 +149,5 @@ const CheckoutMetods = styled.div`
       margin-left: 5px;
       margin-right: 20px;
     }
-  }
-`;
-
-const PaymentMetod = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  background-color: white;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  margin: 10px 0;
-  padding: 5px;
-  img {
-    width: 70px;
-    height: 30px;
-    margin-right: 10px;
-    object-fit: fill;
   }
 `;

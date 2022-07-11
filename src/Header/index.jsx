@@ -50,6 +50,7 @@ const HeaderTop = styled.header`
   position: fixed;
   top: 0;
   z-index: 2;
+  font-family: "roboto";
 
   h2 {
     color: #f9f2e7;
