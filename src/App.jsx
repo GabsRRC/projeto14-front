@@ -48,5 +48,5 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   min-height: 80vh;
-  margin-top: 40px;
+  margin-top: 10vh;
 `;

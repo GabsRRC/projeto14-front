@@ -1,13 +1,14 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CartContext from "../contexts/CartContext.js";
+import TokenContext from "../contexts/TokenContext.js";
 
 export default function Cart() {
   //Ao clique de adicionar carrinho de um usuario => adicionar a um array vazio o array item e adicionar propriedade qtd : 1;
   const { cart, setCart } = useContext(CartContext);
-  const [totalValue, setTotalValue] = useState(0);
-
+  const { token } = useContext(TokenContext);
+  const navigate = useNavigate();
   function cartSum() {
     let valor = 0;
 
@@ -53,7 +54,22 @@ export default function Cart() {
       }
     }
   }
-
+  function proceedToCheckout() {
+    if (isLoggedUser()) {
+      navigate("/checkout");
+    } else {
+      navigate("/login");
+    }
+  }
+  function isLoggedUser() {
+    if (token === "") {
+      console.log("Usuario deslogado");
+      return false;
+    } else {
+      console.log("Usuario logado");
+      return true;
+    }
+  }
   return (
     <CartStyled>
       <CartProducts>
@@ -102,7 +118,9 @@ export default function Cart() {
             </TotalValue>
 
             <Checkout>
-              <LinkStyled to="/checkout">Prossiga para o pagamento!</LinkStyled>
+              <LinkStyled onClick={proceedToCheckout}>
+                Prossiga para o pagamento!
+              </LinkStyled>
             </Checkout>
           </>
         )}
@@ -363,7 +381,7 @@ const EmptyCart = styled.div`
   }
 `;
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled.button`
   text-decoration: none;
   margin: 5px;
   border-radius: 8px;
