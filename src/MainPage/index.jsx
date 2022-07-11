@@ -13,6 +13,7 @@ import { PacmanLoader } from "react-spinners";
 import CartContext from "../contexts/CartContext.js";
 import RenderSale from "../Sale/index.jsx";
 import { useNavigate } from "react-router-dom";
+import CheckoutContext from "../contexts/CheckoutContext.js";
 
 export default function RenderProducts() {
   const [products, setProducts] = useState([]);
@@ -20,13 +21,13 @@ export default function RenderProducts() {
   const { token } = useContext(TokenContext);
   const userInfo = useContext(UserContext);
   const { cart, setCart } = useContext(CartContext);
+  const { checkoutConfirmation } = useContext(CheckoutContext);
 
   const navigate = useNavigate();
 
-
-  const [APIData, setAPIData] = useState([])
+  const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     const promise = axios.get("http://localhost:5000/products");
@@ -35,24 +36,22 @@ export default function RenderProducts() {
       //setIsLogged(isLoggedUser);
       setAPIData([...response.data]);
     });
-
-
   }, []);
 
-
   const searchItems = (searchValue) => {
-    setSearchInput(searchValue)
-    if (searchInput !== '') {
-        const filteredData = APIData.filter((item) => {
-            return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
-        })
-        setFilteredResults(filteredData)
+    setSearchInput(searchValue);
+    if (searchInput !== "") {
+      const filteredData = APIData.filter((item) => {
+        return Object.values(item)
+          .join("")
+          .toLowerCase()
+          .includes(searchInput.toLowerCase());
+      });
+      setFilteredResults(filteredData);
+    } else {
+      setFilteredResults(APIData);
     }
-    else{
-        setFilteredResults(APIData)
-    }
-}
-
+  };
 
   function addItemToCart(id, value, name, description, image) {
     const cartCopy = [...cart];
@@ -74,7 +73,7 @@ export default function RenderProducts() {
     }
   }
 
-  function buyNow (id, value, name, description, image) {
+  function buyNow(id, value, name, description, image) {
     const cartCopy = [...cart];
     const product = {
       _id: id,
@@ -96,8 +95,6 @@ export default function RenderProducts() {
     }
   }
 
-
-
   if (APIData.length < 1) {
     return (
       <None>
@@ -106,46 +103,55 @@ export default function RenderProducts() {
     );
   } else {
     return (
-      <Container>
-        <RenderSale />
-        <p>O que você está procurando hoje?</p>
-        <input placeholder="Pesquisar..." onChange={(e) => searchItems(e.target.value)}></input>
-        <>
-        {searchInput.length > 1 ? (
-                    filteredResults.map((product) => {
-                        return (
-                          <Products
-                          value={product.value}
-                          key={product._id}
-                          id={product._id}
-                          name={product.name}
-                          image={product.image}
-                          description={product.description}
-                          addItemToCart={addItemToCart}
-                          buyNow={buyNow}
-                          isLogged={isLogged}
-                        />
-                        )
-                    })
-                ) : (
-                    APIData.map((product) => {
-                        return (
-                          <Products
-                          value={product.value}
-                          key={product._id}
-                          id={product._id}
-                          name={product.name}
-                          image={product.image}
-                          description={product.description}
-                          addItemToCart={addItemToCart}
-                          buyNow={buyNow}
-                          isLogged={isLogged}
-                        />
-                        )
-                    })
-                )}
-        </>
-      </Container>
+      <>
+        {checkoutConfirmation !== "" ? (
+          <CheckoutConfirmated>{checkoutConfirmation}</CheckoutConfirmated>
+        ) : (
+          ""
+        )}
+
+        <Container>
+          <RenderSale />
+          <p>O que você está procurando hoje?</p>
+          <input
+            placeholder="Pesquisar..."
+            onChange={(e) => searchItems(e.target.value)}
+          ></input>
+          <>
+            {searchInput.length > 1
+              ? filteredResults.map((product) => {
+                  return (
+                    <Products
+                      value={product.value}
+                      key={product._id}
+                      id={product._id}
+                      name={product.name}
+                      image={product.image}
+                      description={product.description}
+                      addItemToCart={addItemToCart}
+                      buyNow={buyNow}
+                      isLogged={isLogged}
+                    />
+                  );
+                })
+              : APIData.map((product) => {
+                  return (
+                    <Products
+                      value={product.value}
+                      key={product._id}
+                      id={product._id}
+                      name={product.name}
+                      image={product.image}
+                      description={product.description}
+                      addItemToCart={addItemToCart}
+                      buyNow={buyNow}
+                      isLogged={isLogged}
+                    />
+                  );
+                })}
+          </>
+        </Container>
+      </>
     );
   }
 }
@@ -158,7 +164,7 @@ function Products({
   isLogged,
   id,
   addItemToCart,
-  buyNow
+  buyNow,
 }) {
   return (
     <Product>
@@ -173,7 +179,10 @@ function Products({
           <span className="parcela"> 10x de R${value / 10} sem juros </span>
           <span className="button">
             {" "}
-            <h6 onClick={() => buyNow(id, value, name, description, image)}> {" "}COMPRAR AGORA  {" "}</h6>{" "}
+            <h6 onClick={() => buyNow(id, value, name, description, image)}>
+              {" "}
+              COMPRAR AGORA{" "}
+            </h6>{" "}
           </span>
           <span className="cart">
             {" "}
@@ -210,15 +219,15 @@ const Container = styled.div`
   flex-direction: column;
   margin-bottom: 55px;
 
-  p{
-    font-family: 'roboto';
+  p {
+    font-family: "roboto";
     font-weight: 700;
     font-size: 20px;
     margin-left: 5px;
     margin-bottom: 5px;
   }
-  input{
-    font-family: 'roboto';
+  input {
+    font-family: "roboto";
     box-sizing: border-box;
     width: 100%;
     height: 35px;
@@ -230,7 +239,8 @@ const Container = styled.div`
     font-size: 16px;
     color: #666666;
     margin: 4px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   }
 `;
 
@@ -335,4 +345,10 @@ const Product = styled.div`
     flex-direction: column;
     margin-left: 18px;
   }
+`;
+const CheckoutConfirmated = styled.div`
+  color: green;
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0 30px 0;
 `;
