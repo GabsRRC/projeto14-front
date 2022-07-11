@@ -8,16 +8,18 @@ import boleto from "../assets/boleto.svg";
 import CartContext from "../contexts/CartContext.js";
 import TokenContext from "../contexts/TokenContext.js";
 import UserContext from "../contexts/UserContext.js";
+import CheckoutContext from "../contexts/CheckoutContext.js";
 import axios from "axios";
 import { useEffect } from "react";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { cart, setCart } = useContext(CartContext);
-  const [payment, setPayment] = useState("");
-  const [alertText, setAlertText] = useState("");
   const { token } = useContext(TokenContext);
   const { userInfo } = useContext(UserContext);
+  const { setCheckoutConfirmation } = useContext(CheckoutContext);
+  const [payment, setPayment] = useState("");
+  const [alertText, setAlertText] = useState("");
   const [userLogged, setUserLogged] = useState(false);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function Checkout() {
 
         axios.post("http://localhost:5000/checkout", userCheckout, auth);
         setCart([]);
+        setCheckoutConfirmation("Compra efetuada com sucesso!");
         navigate("/");
       } else {
         setAlertText("Por favor, faça o login, ou adicione itens ao carrinho!");
